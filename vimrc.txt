@@ -1,42 +1,53 @@
- "A minimal vimrc for new vim users to start with.
+" Tabs and indentation settings
+set tabstop=4       " Number of visual spaces per TAB
+set shiftwidth=4    " Number of spaces to use for each step of (auto)indent
+set expandtab       " Convert TAB key presses to spaces
+set smarttab        " Make <TAB> smarter depending on context
+set autoindent      " Copy indent from current line when starting a new one
+set smartindent     " Do smart autoindenting when starting new lines
+
+" Show relative line numbers
+set number          " Show absolute line number on the current line
+set relativenumber  " Show relative line numbers on other lines
+set clipboard=unnamedplus
+
+" Syntax highlight and colors
+syntax on            " Enable syntax highlighting
+
+
+" Install vim-plug command
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+"     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" Then, restart vim and type :PlugInstall
+
+call plug#begin('~/.vim/plugged')
+" Your plugins go here (I'll suggest some below)
+
 "
-" Referenced here: http://www.benorenstein.com/blog/your-first-vimrc-should-be-nearly-empty/
+Plug 'preservim/nerdtree' 
 
-" Original Author:	 Bram Moolenaar <Bram@vim.org>
-" Made more minimal by:  Ben Orenstein
-" Last change:	         2012 Jan 20
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"
-"  If you don't understand a setting in here, just type ':h setting'.
+":CocInstall coc-pyright coc-clangd
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'Chiel92/vim-autoformat'
+call plug#end()
 
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+" Binding
+nnoremap <F5> :set invnumber<CR>:set invrelativenumber<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
 
-" Make backspace behave in a sane manner.
-set backspace=indent,eol,start
+" Tabs
+nnoremap <Leader>tn :tabnew<CR>
+nnoremap <Leader>tc :tabclose<CR>
+nnoremap <Leader>to :tabonly<CR>
+nnoremap <Leader>1 :tabn 1<CR>
+nnoremap <Leader>2 :tabn 2<CR>
+nnoremap <Leader>3 :tabn 3<CR>
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
 
-" Switch syntax highlighting on
-syntax on
 
-" Enable file type detection and do language-dependent indenting.
-filetype plugin indent on
-
-filetype plugin indent on
-" show existing tab with 4 spaces width
-set tabstop=4
-" " when indenting with '>', use 4 spaces width
-set shiftwidth=4
-" " On pressing tab, insert 4 spaces
-set expandtab
-
-" "The next line will disable the arrow buttons just so i could lose the bad
-" habbit of using them
-
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+" Use <Tab> and <Shift-Tab> to navigate completion menu
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
